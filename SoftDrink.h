@@ -40,7 +40,7 @@ class SoftDrink{
             price_ = price;
         }
 
-        virtual void drink() = 0;
+        virtual void drink() const = 0;
 
         bool operator==(const SoftDrink& a){
             return volume_ == a.volume_ && price_ == a.price_;
@@ -51,6 +51,9 @@ class SoftDrink{
             price_ = a.price_;
             return *this;
         }
+
+        virtual void printInfo() const = 0;
+        virtual std::string saveInfo() const = 0;
 };
 
 uint32_t SoftDrink::ID = 0;

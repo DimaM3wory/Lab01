@@ -24,7 +24,7 @@ class MineralWater : public SoftDrink{
         }
 
 
-        void drink(){
+        void drink() const{
             std::cout << "I drink mineral water";
         }
 
@@ -38,14 +38,31 @@ class MineralWater : public SoftDrink{
             return *this;
         }
 
+        void printInfo() const;
+
+        std::string saveInfo() const{
+            std::string result;
+            result += "2 ";
+            result +=  std::to_string(volume_);
+            result += " ";
+            result += std::to_string(price_);
+            result += " ";
+            result += std::to_string(pH_);
+            return result;
+        }
+
         
 };
 
 std::ostream& operator<<(std::ostream& os, const MineralWater& data_){
-    os << "It's a Mineral Water" << '\n';
-    os << "ID: " << data_.getID() << '\n';
-    os << "Volume: " << data_.getVolume() << "L" << '\n';
-    os << "Price: " << data_.getPrice() << "$" << '\n';
-    os << "PH: " << data_.getPH() << '\n';
+    os << " " << data_.getID() << " | ";
+    os << "Mineral Water" << " | ";
+    os << "Volume: " << data_.getVolume() << "L | ";
+    os << "Price: " << data_.getPrice() << "$ | ";
+    os << "PH: " << data_.getPH() << " | ";
     return os;
+}
+
+void MineralWater::printInfo() const{
+    std::cout << *this << '\n';
 }

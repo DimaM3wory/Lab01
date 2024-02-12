@@ -33,7 +33,7 @@ class CocaCola : public SoftDrink{
             isSugarFree_ = isSugarFree;
         }
 
-        void drink(){
+        void drink() const{
             std::cout << "I drink coca cola";
         }
 
@@ -47,19 +47,38 @@ class CocaCola : public SoftDrink{
             SoftDrink::operator=(a);
             return *this;
         }
+
+        void printInfo() const;
+
+        std::string saveInfo() const{
+            std::string result;
+            result += "0 ";
+            result +=  std::to_string(volume_);
+            result += " ";
+            result += std::to_string(price_);
+            result += " ";
+            result += taste_;
+            result += " ";
+            result += std::to_string(isSugarFree_);
+            return result;
+        }
 };
 
 std::ostream& operator<<(std::ostream& os, const CocaCola& data_){
-    os << "It's a Coca Cola" << '\n';
-    os << "ID: " << data_.getID() << '\n';
-    os << "Volume: " << data_.getVolume() << "L" << '\n';
-    os << "Price: " << data_.getPrice() << "$" << '\n';
-    os << "Taste: " << data_.getTaste() << '\n';
+    os << " " << data_.getID() << " | ";
+    os << "Coca Cola | ";
+    os << "Volume: " << data_.getVolume() << "L | ";
+    os << "Price: " << data_.getPrice() << "$ | ";
+    os << "Taste: " << data_.getTaste() << " | ";
     if(data_.getSugarFree()){
-        os << "Sugar Free" << '\n';
+        os << "Sugar Free" << " | ";
     }else{
-        os << "Not Sugar Free" << '\n';
+        os << "Not Sugar Free" << " | ";
     }
     
     return os;
+}
+
+void CocaCola::printInfo() const{
+    std::cout << *this << '\n';
 }

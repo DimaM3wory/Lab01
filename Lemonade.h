@@ -33,7 +33,7 @@ class Lemonade : public SoftDrink{
             color_ = color;
         }
 
-        void drink(){
+        void drink() const{
             std::cout << "I drink lemonade";
         }
 
@@ -47,14 +47,33 @@ class Lemonade : public SoftDrink{
             SoftDrink::operator=(a);
             return *this;
         }
+
+        void printInfo() const;
+
+        std::string saveInfo() const{
+            std::string result;
+            result += "3 ";
+            result +=  std::to_string(volume_);
+            result += " ";
+            result += std::to_string(price_);
+            result += " ";
+            result += taste_;
+            result += " ";
+            result += color_;
+            return result;
+        }
 };
 
 std::ostream& operator<<(std::ostream& os, const Lemonade& data_){
-    os << "It's a Lemonade" << '\n';
-    os << "ID: " << data_.getID() << '\n';
-    os << "Volume: " << data_.getVolume() << "L" << '\n';
-    os << "Price: " << data_.getPrice() << "$" << '\n';
-    os << "Taste: " << data_.getTaste() << '\n';
-    os << "Color: " << data_.getColor() << '\n';
+    os << " " << data_.getID() << " | ";
+    os << "Lemonade" << " | ";
+    os << "Volume: " << data_.getVolume() << "L | ";
+    os << "Price: " << data_.getPrice() << "$ | ";
+    os << "Taste: " << data_.getTaste() << " | ";
+    os << "Color: " << data_.getColor() << " | ";
     return os;
+}
+
+void Lemonade::printInfo() const{
+    std::cout << *this << '\n';
 }
