@@ -107,9 +107,6 @@ int main(){
                    storage.end());
             break;
         }
-        case 'c':
-            //код
-            break;
         case 's':
             std::cout << "----------------------------------------------STORAGE----------------------------------------------" << '\n';
             for (const auto& item : storage){
