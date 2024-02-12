@@ -2,16 +2,20 @@
 #include "other.h"
 
 class SoftDrink{
-    private:
+    protected:
         const uint32_t ID_;
         double volume_;
         double price_;
-    protected:
         static uint32_t ID;
     public:
-        SoftDrink(double volume, double price) : ID_(ID++){
+        SoftDrink(double volume = 0, double price = 0) : ID_(ID++){
             volume_ = volume;
             price_ = price;
+        }
+
+        SoftDrink(const SoftDrink& a) : SoftDrink() {
+            volume_ = a.volume_;
+            price_ = a.price_;
         }
 
         virtual ~SoftDrink(){};
@@ -40,6 +44,12 @@ class SoftDrink{
 
         bool operator==(const SoftDrink& a){
             return volume_ == a.volume_ && price_ == a.price_;
+        }
+
+        SoftDrink& operator=(const SoftDrink& a){
+            volume_ = a.volume_;
+            price_ = a.price_;
+            return *this;
         }
 };
 

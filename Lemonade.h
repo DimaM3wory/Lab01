@@ -1,13 +1,18 @@
 #include "SoftDrink.h"
 
 class Lemonade : public SoftDrink{
-    private:
+    protected:
         std::string taste_;
         std::string color_;
     public:
-        Lemonade(double volume, double price, const std::string& taste, const std::string& color) : SoftDrink(volume, price) {
+        Lemonade(double volume = 0, double price = 0, const std::string& taste = "Original", const std::string& color = "Transparent") : SoftDrink(volume, price) {
             taste_ = taste;
             color_ = color;
+        }
+
+        Lemonade(const Lemonade& a) : SoftDrink(a) {
+            taste_ = a.taste_;
+            color_ = a.color_;
         }
 
         ~Lemonade(){};
@@ -28,9 +33,19 @@ class Lemonade : public SoftDrink{
             color_ = color;
         }
 
-
         void drink(){
             std::cout << "I drink lemonade";
+        }
+
+        bool operator==(const Lemonade& a){
+            return taste_ == a.taste_ && color_ == a.color_ && SoftDrink::operator==(a);
+        }
+
+        Lemonade& operator=(const Lemonade& a){
+            taste_ = a.taste_;
+            color_ = a.color_;
+            SoftDrink::operator=(a);
+            return *this;
         }
 };
 

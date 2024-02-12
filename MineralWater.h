@@ -1,12 +1,17 @@
 #include "SoftDrink.h"
 
 class MineralWater : public SoftDrink{
-    private:
+    protected:
         double pH_;
     public:
-        MineralWater(double volume, double price, double pH) : SoftDrink(volume, price) {
+        MineralWater(double volume = 0, double price = 0, double pH = 0) : SoftDrink(volume, price) {
             pH_ = pH;
         }
+
+        MineralWater(const MineralWater& a) : SoftDrink(a) {
+            pH_ = a.pH_;
+        }
+
 
         ~MineralWater(){};
 
@@ -26,6 +31,14 @@ class MineralWater : public SoftDrink{
         bool operator==(const MineralWater& a){
             return pH_ == a.pH_ && SoftDrink::operator==(a);
         }
+
+        MineralWater& operator=(const MineralWater& a){
+            pH_ = a.pH_;
+            SoftDrink::operator=(a);
+            return *this;
+        }
+
+        
 };
 
 std::ostream& operator<<(std::ostream& os, const MineralWater& data_){

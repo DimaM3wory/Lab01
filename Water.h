@@ -1,11 +1,15 @@
 #include "SoftDrink.h"
 
 class Water : public SoftDrink{
-    private:
+    protected:
         double hardness_;
     public:
-        Water(double volume, double price, double hardness) : SoftDrink(volume, price) {
+        Water(double volume = 0, double price = 0, double hardness = 0) : SoftDrink(volume, price) {
             hardness_ = hardness;
+        }
+
+        Water(const Water& a) : SoftDrink(a) {
+            hardness_ = a.hardness_;
         }
 
         ~Water(){};
@@ -25,6 +29,12 @@ class Water : public SoftDrink{
 
         bool operator==(const Water& a){
             return hardness_ == a.hardness_ && SoftDrink::operator==(a);
+        }
+
+        Water& operator=(const Water& a){
+            hardness_ = a.hardness_;
+            SoftDrink::operator=(a);
+            return *this;
         }
 };
 
