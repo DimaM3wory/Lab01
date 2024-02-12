@@ -9,4 +9,6 @@ int main(){
     Water c(2, 5, 2);
     MineralWater d(1, 2, 6.5);
     Lemonade e(2, 3, "Cherry", "Red");
+    bool t = a==b;
+    std::cout << t;
 }

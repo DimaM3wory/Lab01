@@ -33,10 +33,7 @@ class CocaCola : public SoftDrink{
         }
 
         bool operator==(const CocaCola& a){
-            if (static_cast<const SoftDrink&>(*this) == static_cast<const SoftDrink&>(a)) {
-                return taste_ == a.getTaste() && isSugarFree_ == a.getSugarFree();
-            }
-        return false;
+            return taste_ == a.taste_ && isSugarFree_ == a.isSugarFree_ && SoftDrink::operator==(a);
         }
 };
 

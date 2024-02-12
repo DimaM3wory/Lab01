@@ -22,6 +22,10 @@ class MineralWater : public SoftDrink{
         void drink(){
             std::cout << "I drink mineral water";
         }
+
+        bool operator==(const MineralWater& a){
+            return pH_ == a.pH_ && SoftDrink::operator==(a);
+        }
 };
 
 std::ostream& operator<<(std::ostream& os, const MineralWater& data_){

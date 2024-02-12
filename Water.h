@@ -22,6 +22,10 @@ class Water : public SoftDrink{
         void drink(){
             std::cout << "I drink water";
         }
+
+        bool operator==(const Water& a){
+            return hardness_ == a.hardness_ && SoftDrink::operator==(a);
+        }
 };
 
 std::ostream& operator<<(std::ostream& os, const Water& data_){
