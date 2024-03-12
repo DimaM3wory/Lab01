@@ -13,7 +13,16 @@ class SoftDrink{
             price_ = price;
         }
 
+        SoftDrink(std::istringstream& istr): ID_(ID++){
+            istr >> volume_ >> price_;
+        }
+
         SoftDrink(const SoftDrink& a) : SoftDrink() {
+            volume_ = a.volume_;
+            price_ = a.price_;
+        }
+
+        SoftDrink(SoftDrink&& a): ID_(a.ID_){
             volume_ = a.volume_;
             price_ = a.price_;
         }
@@ -47,6 +56,14 @@ class SoftDrink{
         }
 
         SoftDrink& operator=(const SoftDrink& a){
+            volume_ = a.volume_;
+            price_ = a.price_;
+            return *this;
+        }
+
+        SoftDrink& operator=(SoftDrink&& a){
+            if(this == &a) return *this;
+            *(const_cast<uint32_t*>(&ID_)) = a.ID_;
             volume_ = a.volume_;
             price_ = a.price_;
             return *this;

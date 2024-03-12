@@ -1,3 +1,4 @@
+#pragma once
 #include "SoftDrink.h"
 
 class MineralWater : public SoftDrink{
@@ -8,7 +9,15 @@ class MineralWater : public SoftDrink{
             pH_ = pH;
         }
 
+        MineralWater(std::istringstream& istr): SoftDrink(istr){
+            istr >> pH_;
+        }
+
         MineralWater(const MineralWater& a) : SoftDrink(a) {
+            pH_ = a.pH_;
+        }
+
+        MineralWater(MineralWater&& a): SoftDrink(std::move(a)){
             pH_ = a.pH_;
         }
 
@@ -35,6 +44,14 @@ class MineralWater : public SoftDrink{
         MineralWater& operator=(const MineralWater& a){
             pH_ = a.pH_;
             SoftDrink::operator=(a);
+            return *this;
+        }
+
+        MineralWater& operator=(MineralWater&& a){
+            if(this == &a) return *this;
+
+            pH_ = a.pH_;
+            SoftDrink::operator=(std::move(a));
             return *this;
         }
 

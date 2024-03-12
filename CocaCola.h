@@ -1,3 +1,4 @@
+#pragma once
 #include "SoftDrink.h"
 
 class CocaCola : public SoftDrink{
@@ -10,7 +11,16 @@ class CocaCola : public SoftDrink{
             isSugarFree_ = isSugarFree;
         }
 
+        CocaCola(std::istringstream& istr): SoftDrink(istr){
+            istr >> taste_ >> isSugarFree_;
+        }
+
         CocaCola(const CocaCola& a) : SoftDrink(a) {
+            taste_ = a.taste_;
+            isSugarFree_ = a.isSugarFree_;
+        }
+
+        CocaCola(CocaCola&& a): SoftDrink(std::move(a)){
             taste_ = a.taste_;
             isSugarFree_ = a.isSugarFree_;
         }
@@ -45,6 +55,15 @@ class CocaCola : public SoftDrink{
             taste_ = a.taste_;
             isSugarFree_ = a.isSugarFree_;
             SoftDrink::operator=(a);
+            return *this;
+        }
+
+        CocaCola& operator=(CocaCola&& a){
+            if(this == &a) return *this;
+
+            taste_ = a.taste_;
+            isSugarFree_ = a.isSugarFree_;
+            SoftDrink::operator=(std::move(a));
             return *this;
         }
 

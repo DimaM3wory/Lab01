@@ -2,89 +2,69 @@
 #include "Water.h"
 #include "MineralWater.h"
 #include "Lemonade.h"
+#include "Factories.h"
+#include "CompositeSoftDrink.h"
 
 int main(){
+    SoftDrinkFactory* waterFactory = new WaterFactory();
+    SoftDrinkFactory* mineralWaterFactory = new MineralWaterFactory();
+    SoftDrinkFactory* lemonadeFactory = new LemonadeFactory();
+    SoftDrinkFactory* cocaColaFactory = new CocaColaFactory();
+
     std::vector<SoftDrink*> storage;
-    std::vector<SoftDrink*> memory(0);
-    
-    char input;
+
+    std::string input;
     bool cycle = true;
     while (cycle) {
-        std::cout << "Enter option: ";
-        std::cin >> input;
-        switch (input){
+        std::cout << "Enter option (one symbol): ";
+        std::getline(std::cin, input);
+        switch (input[0]){
         case '+':
         {
+            std::cout << "Enter creation request: "; // (How many) (Type) (...) "10 0 2.000000 1.000000 Cherry 1"
+            std::string request;
+            getline(std::cin, request);
+            std::istringstream istr(request);
+            
             int amount;
-            std::cout << "How many: ";
-            std::cin >> amount;
+            istr >> amount;
 
             int type;
-            std::cout << "Enter type: ";
-            std::cin >> type;
+            istr >> type;
 
-            double volume;
-            std::cout << "Enter volume: ";
-            std::cin >> volume;
-
-            double price;
-            std::cout << "Enter price: ";
-            std::cin >> price;
-
+            std::string str0;
+            std::getline(istr, str0);
             switch (type){
                 case 0: //CocaCola
                 {
-                    std::string taste;
-                    std::cout << "Enter taste: ";
-                    std::cin >> taste;
-
-                    bool isSugarFree;
-                    std::cout << "Is sugar free: ";
-                    std::cin >> isSugarFree;
-                    int mem_size = memory.size();
-                    for (int i = mem_size; i < mem_size + amount; i++){
-                        memory.push_back(new CocaCola(volume, price, taste, isSugarFree));
-                        storage.push_back(memory[i]);
+                    
+                    for (int i = 0; i < amount; i++){
+                        std::istringstream copy(str0);
+                        storage.push_back(cocaColaFactory->create(copy));
                     }
                     break;
                 }
                 case 1: //Water
                 {
-                    double hardness;
-                    std::cout << "Enter hardness: ";
-                    std::cin >> hardness;
-                    int mem_size = memory.size();
-                    for (int i = mem_size; i < mem_size + amount; i++){
-                        memory.push_back(new Water(volume, price, hardness));
-                        storage.push_back(memory[i]);
+                    for (int i = 0; i < amount; i++){
+                        std::istringstream copy(str0);
+                        storage.push_back(waterFactory->create(copy));
                     }
                     break;
                 }
                 case 2: //MineralWater
                 {
-                    double pH;
-                    std::cout << "Enter pH: ";
-                    std::cin >> pH;
-                    int mem_size = memory.size();
-                    for (int i = mem_size; i < mem_size + amount; i++){
-                        memory.push_back(new MineralWater(volume, price, pH));
-                        storage.push_back(memory[i]);
+                    for (int i = 0; i < amount; i++){
+                        std::istringstream copy(str0);
+                        storage.push_back(mineralWaterFactory->create(copy));
                     }
                     break;
                 }
                 case 3: //Lemonade
                 {
-                    std::string taste;
-                    std::cout << "Enter taste: ";
-                    std::cin >> taste;
-
-                    std::string color;
-                    std::cout << "Enter color: ";
-                    std::cin >> color;
-                    int mem_size = memory.size();
-                    for (int i = mem_size; i < mem_size + amount; i++){
-                        memory.push_back(new Lemonade(volume, price, taste, color));
-                        storage.push_back(memory[i]);
+                    for (int i = 0; i < amount; i++){
+                        std::istringstream copy(str0);
+                        storage.push_back(lemonadeFactory->create(copy));
                     }
                     break;
                 }
@@ -133,58 +113,31 @@ int main(){
             while(!file.eof()){
                 std::string line;
                 std::getline(file, line);
-                std::istringstream strstream(line);
+                std::istringstream istr(line);
 
                 int type;
-                strstream >> type;
-
-                double volume;
-                strstream >> volume;
-
-                double price;
-                strstream >> price;
+                istr >> type;
 
                 switch (type){
                     case 0: //CocaCola
                     {
-                        std::string taste;
-                        strstream >> taste;
-
-                        bool isSugarFree;
-                        strstream >> isSugarFree;
-                        int mem_size = memory.size();
-                        memory.push_back(new CocaCola(volume, price, taste, isSugarFree));
-                        storage.push_back(memory[mem_size]);
+                        storage.push_back(cocaColaFactory->create(istr));
                         break;
                     }
                     case 1: //Water
                     {
-                        double hardness;
-                        strstream >> hardness;
-                        int mem_size = memory.size();
-                        memory.push_back(new Water(volume, price, hardness));
-                        storage.push_back(memory[mem_size]);
+                        storage.push_back(waterFactory->create(istr));
                         break;
                     }
                     case 2: //MineralWater
                     {
-                        double pH;
-                        strstream >> pH;
-                        int mem_size = memory.size();
-                        memory.push_back(new MineralWater(volume, price, pH));
-                        storage.push_back(memory[mem_size]);
+                        storage.push_back(mineralWaterFactory->create(istr));
+                        break;
                     break;
                     }
                     case 3: //Lemonade
                     {
-                        std::string taste;
-                        strstream >> taste;
-
-                        std::string color;
-                        strstream >> color;
-                        int mem_size = memory.size();
-                        memory.push_back(new Lemonade(volume, price, taste, color));
-                        storage.push_back(memory[mem_size]);
+                        storage.push_back(lemonadeFactory->create(istr));
                         break;
                     }
                     default:
@@ -199,14 +152,20 @@ int main(){
         }
         case 'E':
             cycle = false;
-            for(auto& item : memory){
+            for(auto& item : storage){
                 delete item;
             }
-            memory.clear();
+            storage.clear();
+            delete waterFactory;
+            delete mineralWaterFactory;
+            delete lemonadeFactory;
+            delete cocaColaFactory;
             break;
         default:
             std::cout << "Invalid input \n";
             break;
         }
     }
+
+    
 }
